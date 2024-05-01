@@ -1,13 +1,51 @@
 import * as React from 'react';
 import logo from '../assets/logo.png';
-
 const navigation = [
-    { name: 'Home', href: '#' },
+    { name: 'Home', href: '' },
     { name: 'Swap', href: '#swap' },
-    { name: 'NFTs', href: '#' },
+    { name: 'NFTs', href: 'nft' },
     { name: 'Pool', href: '#' },
 ]
 export default function NavBar() {
+    const [connected, setConnected] = React.useState(false);
+    async function getKeplr() {
+        if (window.keplr) {
+            console.log('0',window.keplr);
+            await window.keplr.enable("cosmoshub-4");
+            setConnected(true);
+            return window.keplr;
+        }
+    
+        if (document.readyState === "complete") {
+            console.log("1",window.keplr)
+            return window.keplr;
+        }
+    
+        return new Promise((resolve) => {
+            const documentStateChange = (event) => {
+                if (
+                    event.target &&
+                    event.target.readyState === "complete"
+                ) {
+                    resolve(window.keplr);
+                    document.removeEventListener("readystatechange", documentStateChange);
+                }
+            };
+    
+            document.addEventListener("readystatechange", documentStateChange);
+        });
+    }
+
+    async function handleConnection() {
+        try {
+            await getKeplr();
+            // If you want to do something after connecting, you can put it here
+            console.log("Connected to Keplr wallet successfully!");
+        } catch (error) {
+            console.error("Failed to connect to Keplr wallet:", error);
+        }
+    }
+    
     return (
         <div id='navbar'>
             <nav className="flex items-center justify-between p-6 lg:px-8" aria-label="Global">
@@ -39,9 +77,14 @@ export default function NavBar() {
                     ))}
                 </div>
                 <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-                    <button class="bg-blue-200 hover:bg-blue-300 text-blue-600 font-bold py-2 px-4 rounded-full">
+                    
+                    {connected ? 
+                    <div className="bg-blue-200 text-blue-600 font-bold py-2 px-4 rounded-full">
+                        Keplr wallet connected
+                    </div> :
+                     <button className="bg-blue-200 hover:bg-blue-300 text-blue-600 font-bold py-2 px-4 rounded-full" onClick={handleConnection}>
                         Connect
-                    </button>
+                    </button>}
                 </div>
             </nav>
         </div>
