@@ -4,14 +4,14 @@ const navigation = [
     { name: 'Home', href: '' },
     { name: 'Swap', href: '#swap' },
     { name: 'NFTs', href: 'nft' },
-    { name: 'Pool', href: '#' },
+    { name: 'Pool', href: 'pool' },
 ]
 export default function NavBar() {
     const [connected, setConnected] = React.useState(false);
     async function getKeplr() {
         if (window.keplr) {
             console.log('0',window.keplr);
-            await window.keplr.enable("cosmoshub-4");
+            await window.keplr.enable("theta-testnet-001");
             setConnected(true);
             return window.keplr;
         }
