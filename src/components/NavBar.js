@@ -1,13 +1,55 @@
 import * as React from 'react';
 import logo from '../assets/logo.png';
-
+import { FaWallet } from "react-icons/fa";
 const navigation = [
-    { name: 'Home', href: '#' },
+    { name: 'Home', href: '' },
     { name: 'Swap', href: '#swap' },
-    { name: 'NFTs', href: '#' },
-    { name: 'Pool', href: '#' },
+    { name: 'NFTs', href: 'nft' },
+    { name: 'Pool', href: 'pool' },
 ]
 export default function NavBar() {
+    const [connected, setConnected] = React.useState(false);
+    const [walletAddress, setWalletAddress] = React.useState('');
+    const chainId = "theta-testnet-001"
+    async function getKeplr() {
+        if (window.keplr) {
+            await window.keplr.enable(chainId);
+            setConnected(true);
+            return window.keplr;
+        }
+    
+        if (document.readyState === "complete") {
+            console.log("1",window.keplr)
+            console.log("connected")
+            return window.keplr;
+        }
+    
+        return new Promise((resolve) => {
+            const documentStateChange = (event) => {
+                if (
+                    event.target &&
+                    event.target.readyState === "complete"
+                ) {
+                    resolve(window.keplr);
+                    document.removeEventListener("readystatechange", documentStateChange);
+                }
+            };
+    
+            document.addEventListener("readystatechange", documentStateChange);
+        });
+    }
+
+    async function handleConnection() {
+        try {
+            const keplr = await getKeplr();
+            const key = await keplr.getKey(chainId);
+            console.log("key", key.bech32Address);
+            setWalletAddress(key.bech32Address);
+        } catch (error) {
+            console.error("Failed to connect to Keplr wallet:", error);
+        }
+    }
+    
     return (
         <div id='navbar'>
             <nav className="flex items-center justify-between p-6 lg:px-8" aria-label="Global">
@@ -39,9 +81,17 @@ export default function NavBar() {
                     ))}
                 </div>
                 <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-                    <button class="bg-blue-200 hover:bg-blue-300 text-blue-600 font-bold py-2 px-4 rounded-full">
-                        Connect
-                    </button>
+                    {connected ? 
+                        <div className="bg-blue-200 text-blue-600 font-bold py-2 px-4 rounded-full flex items-center">
+                            <FaWallet className="mr-2" />
+                            <span>{walletAddress.slice(0, 3)}...{walletAddress.slice(-5)}</span>
+                        </div> 
+                        :
+                        <button className="bg-blue-200 hover:bg-blue-300 text-blue-600 font-bold py-2 px-4 rounded-full flex items-center" onClick={handleConnection}>
+                            <FaWallet className="mr-2" />
+                            <span>Connect</span>
+                        </button>
+                    }
                 </div>
             </nav>
         </div>
