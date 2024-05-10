@@ -1,5 +1,6 @@
 import * as React from 'react';
 import logo from '../assets/logo.png';
+import { FaWallet } from "react-icons/fa";
 const navigation = [
     { name: 'Home', href: '' },
     { name: 'Swap', href: '#swap' },
@@ -8,16 +9,18 @@ const navigation = [
 ]
 export default function NavBar() {
     const [connected, setConnected] = React.useState(false);
+    const [walletAddress, setWalletAddress] = React.useState('');
+    const chainId = "theta-testnet-001"
     async function getKeplr() {
         if (window.keplr) {
-            console.log('0',window.keplr);
-            await window.keplr.enable("theta-testnet-001");
+            await window.keplr.enable(chainId);
             setConnected(true);
             return window.keplr;
         }
     
         if (document.readyState === "complete") {
             console.log("1",window.keplr)
+            console.log("connected")
             return window.keplr;
         }
     
@@ -38,9 +41,10 @@ export default function NavBar() {
 
     async function handleConnection() {
         try {
-            await getKeplr();
-            // If you want to do something after connecting, you can put it here
-            console.log("Connected to Keplr wallet successfully!");
+            const keplr = await getKeplr();
+            const key = await keplr.getKey(chainId);
+            console.log("key", key.bech32Address);
+            setWalletAddress(key.bech32Address);
         } catch (error) {
             console.error("Failed to connect to Keplr wallet:", error);
         }
@@ -77,14 +81,17 @@ export default function NavBar() {
                     ))}
                 </div>
                 <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-                    
                     {connected ? 
-                    <div className="bg-blue-200 text-blue-600 font-bold py-2 px-4 rounded-full">
-                        Keplr wallet connected
-                    </div> :
-                     <button className="bg-blue-200 hover:bg-blue-300 text-blue-600 font-bold py-2 px-4 rounded-full" onClick={handleConnection}>
-                        Connect
-                    </button>}
+                        <div className="bg-blue-200 text-blue-600 font-bold py-2 px-4 rounded-full flex items-center">
+                            <FaWallet className="mr-2" />
+                            <span>{walletAddress.slice(0, 3)}...{walletAddress.slice(-5)}</span>
+                        </div> 
+                        :
+                        <button className="bg-blue-200 hover:bg-blue-300 text-blue-600 font-bold py-2 px-4 rounded-full flex items-center" onClick={handleConnection}>
+                            <FaWallet className="mr-2" />
+                            <span>Connect</span>
+                        </button>
+                    }
                 </div>
             </nav>
         </div>
