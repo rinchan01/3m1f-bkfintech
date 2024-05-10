@@ -3,9 +3,10 @@ import axios from "axios";
 import NavBar from "../components/NavBar";
 import { FaCheckCircle } from "react-icons/fa";
 import SliderComponent from '../components/SliderComponent';
+import Footer from '../components/Footer';
 const NFTs = () => {
   const [collectionsData, setCollectionsData] = useState([]);
-    const topNfts = ["boredapeyachtclub","mutant-ape-yacht-club","azuki","pudgypenguins","palioai-aura","memelandcaptainz", "mocaverse", "memelandpotatoz", "degods", "lasogette"];
+    const topNfts = ["boredapeyachtclub","mutant-ape-yacht-club","azuki","pudgypenguins","palioai-aura","memelandcaptainz", "mocaverse", "memelandpotatoz", "lasogette"];
 
   useEffect(() => {
     const fetchData = async () => {
@@ -33,18 +34,19 @@ const NFTs = () => {
   return (
     <>
       <NavBar />
-      <div className="flex max-w-7xl mx-auto mt-8 mb-8">
-        <div className="flex-1 pr-8">
+      <div className="flex max-w-7xl mx-auto my-8">
+        <div className="flex-1">
           <h1 className="text-4xl font-extrabold tracking-tight leading-none md:text-5xl xl:text-6xl dark:text-white">Better prices. More listings</h1>
           <p className="mt-4 max-w-2xl font-light text-gray-500 md:text-lg lg:text-xl dark:text-gray-400">Trending NFT collections.</p>
         </div>
-        <div className="flex-1 pl-8">
-          <SliderComponent arrImages={collectionsData} />
+        <div className="flex-1 pl-1 rounded-lg ">
+          <SliderComponent
+           arrImages={collectionsData} />
         </div>
       </div>
 
       <div className="overflow-x-auto">
-        <table className="table-auto min-w-full divide-y divide-gray-200">
+        <table className="table-auto divide-y w-5/6 mx-auto divide-gray-200">
           <thead className="bg-gray-50">
             <tr>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"></th>
@@ -85,6 +87,7 @@ const NFTs = () => {
           </tbody>
         </table>
       </div>
+      <Footer />
     </>
   );
 };

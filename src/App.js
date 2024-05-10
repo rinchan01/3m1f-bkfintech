@@ -5,13 +5,13 @@ import Pool from './page/Pool';
 import Explore from './page/Explore';
 import Layout from './page/Layout';
 import AddPosition from './page/position/AddPosition';
+
 const path = [
   { path: '/', component: <Home/>},
-  { path: '/home', component: <Home/>},
   { path: '/nft', component: <NFTs/>},
   { path: '/pool', component: <Pool/>},
   { path: '/explore', component: <Explore/>},
-  { path: '/add', component: <AddPosition/>}
+  { path: '/add', component: <AddPosition/>},
 ]
 function App() {
   return (

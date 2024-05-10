@@ -1,4 +1,3 @@
-import { Cropper } from 'react-easy-crop';
 import React from 'react';
 import Slider from 'react-slick';
 
@@ -16,10 +15,10 @@ const SliderComponent = ({ arrImages }) => {
 
     return (
         <div className="max-w-2xl max-h-full mx-auto" >
-            <Slider {...settings} className="rounded-lg overflow-hidden">
+            <Slider {...settings}>
                 {arrImages.map((image) => (
                     <div key={image.name}>
-                        <img src={image.banner_image_url} alt="slider" className="h-400 w-600" />
+                        <img src={image.banner_image_url} alt="slider" style={{ height: '200px', width: '100%', objectFit: 'cover' }} />
                     </div>
                 ))}
             </Slider>
