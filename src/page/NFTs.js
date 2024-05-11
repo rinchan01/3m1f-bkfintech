@@ -4,32 +4,8 @@ import NavBar from "../components/NavBar";
 import { FaCheckCircle } from "react-icons/fa";
 import SliderComponent from '../components/SliderComponent';
 import Footer from '../components/Footer';
+import { collectionsData } from '../assets/topNFT';
 const NFTs = () => {
-  const [collectionsData, setCollectionsData] = useState([]);
-    const topNfts = ["boredapeyachtclub","mutant-ape-yacht-club","azuki","pudgypenguins","palioai-aura","memelandcaptainz", "mocaverse", "memelandpotatoz", "lasogette"];
-
-  useEffect(() => {
-    const fetchData = async () => {
-        try {
-          const allCollectionData = [];
-    
-          for (const collectionName of topNfts) {
-            const response = await axios.get(`https://api.opensea.io/api/v2/collections/${collectionName}`, {
-              headers: {
-                'x-api-key': '688dbfe2c2974d95b9c63d738de02fdb'
-              }
-            });
-            allCollectionData.push(response.data);
-          }
-    
-          setCollectionsData(allCollectionData);
-        } catch (error) {
-          console.error('Error fetching collections:', error);
-        }
-      };
-    
-      fetchData();
-  }, [topNfts]);
 
   return (
     <>
