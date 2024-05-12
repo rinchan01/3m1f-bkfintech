@@ -354,34 +354,34 @@ export const collectionsData =[
         "created_date": "2021-07-22"
     },
     {
-        "collection": "palioai-aura",
-        "name": "PalioAI Aura",
-        "description": "The PalioAI AURA NFT Collection presents a collection of 3,333 NFTs, each representing the revolutionary fusion of AI-enhanced productivity with the tenets of Web3 ownership. Holders are poised to immerse themselves in the rich tapestry of experiences offered by the PalioAI ecosystem, collaboratively shaping the future of the PalioAI brand.",
-        "image_url": "https://i.seadn.io/s/raw/files/d066c1a36491f526a36648df8754b342.jpg?w=500&auto=format",
-        "banner_image_url": "",
-        "owner": "0x3419467128a7f9b22e8e9f382178fcec451afc43",
-        "safelist_status": "approved",
-        "category": "gaming",
+        "collection": "milady",
+        "name": "Milady Maker",
+        "description": "Milady Maker is a collection of 10,000 generative pfpNFT's in a neochibi aesthetic inspired by street style tribes.",
+        "image_url": "https://i.seadn.io/gae/a_frplnavZA9g4vN3SexO5rrtaBX_cBTaJYcgrPtwQIqPhzgzUendQxiwUdr51CGPE2QyPEa1DHnkW1wLrHAv5DgfC3BP-CWpFq6BA?w=500&auto=format",
+        "banner_image_url": "https://i.seadn.io/gae/1TtiQPPiqoc6hqMw3xVYnlEatEi6QhRQGDQA3B3yZfhr2nuXbedAQCOcTs1UZot6-4FXSiYM6xOtHWcaJNwFdRyuOlC_q5erFRbMYA?w=500&auto=format",
+        "owner": "0x54f8e4e9842c93ef0e8f5a83374db0c521d728cb",
+        "safelist_status": "verified",
+        "category": "pfps",
         "is_disabled": false,
         "is_nsfw": false,
-        "trait_offers_enabled": false,
+        "trait_offers_enabled": true,
         "collection_offers_enabled": true,
-        "opensea_url": "https://opensea.io/collection/palioai-aura",
-        "project_url": "https://www.palio.ai/",
+        "opensea_url": "https://opensea.io/collection/milady",
+        "project_url": "https://miladymaker.net",
         "wiki_url": "",
-        "discord_url": "",
+        "discord_url": "https://discord.gg/milady",
         "telegram_url": "",
-        "twitter_username": "PalioAI",
+        "twitter_username": "MiladyMaker333",
         "instagram_username": "",
         "contracts": [
             {
-                "address": "0x7b563a232c197bae03089852a9cfd65395232861",
+                "address": "0x5af0d9827e0c53e4799bb226655a1de152a425a5",
                 "chain": "ethereum"
             }
         ],
         "editors": [
-            "0x3419467128a7f9b22e8e9f382178fcec451afc43",
-            "0xbea463c344cf4b85fc7fd1ff250b84775884c079"
+            "0x54f8e4e9842c93ef0e8f5a83374db0c521d728cb",
+            "0xd0513428149e573c8414c52ead685304a9840231"
         ],
         "fees": [
             {
@@ -390,13 +390,62 @@ export const collectionsData =[
                 "required": true
             },
             {
-                "fee": 5,
-                "recipient": "0xbea463c344cf4b85fc7fd1ff250b84775884c079",
+                "fee": 5.0,
+                "recipient": "0xcf3e932f72e5f15411d125ad80579a3ef205b9b4",
                 "required": false
             }
         ],
-        "total_supply": 3333,
-        "created_date": "2024-04-30"
+        "rarity": {
+            "strategy_id": "openrarity",
+            "strategy_version": "0.7.5",
+            "calculated_at": "2024-05-07T22:02:13.026599",
+            "max_rank": 9999,
+            "tokens_scored": 10000
+        },
+        "payment_tokens": [
+            {
+                "symbol": "ETH",
+                "address": "0x0000000000000000000000000000000000000000",
+                "chain": "ethereum",
+                "image": "https://raw.seadn.io/files/ETH.svg",
+                "name": "Ether",
+                "decimals": 18,
+                "eth_price": "1.000000000000000",
+                "usd_price": "2905.170000000000073000"
+            },
+            {
+                "symbol": "DAI",
+                "address": "0x6b175474e89094c44da98b954eedeac495271d0f",
+                "chain": "ethereum",
+                "image": "https://raw.seadn.io/files/DAI.svg",
+                "name": "Dai Stablecoin",
+                "decimals": 18,
+                "eth_price": "0.000343520000000",
+                "usd_price": "0.998407000000000000"
+            },
+            {
+                "symbol": "WETH",
+                "address": "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
+                "chain": "ethereum",
+                "image": "https://raw.seadn.io/files/WETH.svg",
+                "name": "Wrapped Ether",
+                "decimals": 18,
+                "eth_price": "1.000000000000000",
+                "usd_price": "2906.059999999999945000"
+            },
+            {
+                "symbol": "USDC",
+                "address": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+                "chain": "ethereum",
+                "image": "https://raw.seadn.io/files/USDC.svg",
+                "name": "USD Coin",
+                "decimals": 6,
+                "eth_price": "0.000344120000000",
+                "usd_price": "0.999734000000000000"
+            }
+        ],
+        "total_supply": 9733,
+        "created_date": "2021-08-24"
     },
     {
         "collection": "memelandcaptainz",
@@ -446,7 +495,7 @@ export const collectionsData =[
         "collection": "mocaverse",
         "name": "Mocaverse",
         "description": "Mocaverse is the Animoca Brands membership NFT collection of 8,888 unique beings that thrive in unity: The Mocas. There are 5 incredible Moca tribes of the Angels, Builders, Dreamers, Connectors, and Neo-Capitalists. Join the Mocas in the realms to Learn, Play, Do Good, and Build together as we champion our Web3 values! Learn more about the Mocas on our [website](https://www.mocaverse.xyz).",
-        "image_url": "https://i.seadn.io/gcs/files/6a0b776c9bb3973d1dd8d399353da9f5.gif?w=500&auto=format",
+        "image_url": "https://th.bing.com/th/id/R.ed67f6a2fbaf1501b5bd12f59e877f22?rik=ac2JG0VOq7lIAg&pid=ImgRaw&r=0",
         "banner_image_url": "https://i.seadn.io/gcs/files/20e81e38bb831b47e23b7ea0e13c6891.png?w=500&auto=format",
         "owner": "0xda4966870a9b4ce849c2011a007a896b7f212b70",
         "safelist_status": "verified",
@@ -695,5 +744,88 @@ export const collectionsData =[
         ],
         "total_supply": 7743,
         "created_date": "2022-08-30"
+    },
+    {
+        "collection": "cryptopunks",
+        "name": "CryptoPunks",
+        "description": "CryptoPunks launched as a fixed set of 10,000 items in mid-2017 and became one of the inspirations for the ERC-721 standard. They have been featured in places like The New York Times, Christie’s of London, Art|Basel Miami, and The PBS NewsHour.",
+        "image_url": "https://i.seadn.io/gae/BdxvLseXcfl57BiuQcQYdJ64v-aI8din7WPk0Pgo3qQFhAUH-B6i-dCqqc_mCkRIzULmwzwecnohLhrcH8A9mpWIZqA7ygc52Sr81hE?w=500&auto=format",
+        "banner_image_url": "https://i.seadn.io/gae/48oVuDyfe_xhs24BC2TTVcaYCX7rrU5mpuQLyTgRDbKHj2PtzKZsQ5qC3xTH4ar34wwAXxEKH8uUDPAGffbg7boeGYqX6op5vBDcbA?w=500&auto=format",
+        "owner": "0xc352b534e8b987e036a93539fd6897f53488e56a",
+        "safelist_status": "verified",
+        "category": "pfps",
+        "is_disabled": true,
+        "is_nsfw": false,
+        "trait_offers_enabled": false,
+        "collection_offers_enabled": false,
+        "opensea_url": "https://opensea.io/collection/cryptopunks",
+        "project_url": "https://cryptopunks.app/",
+        "wiki_url": "",
+        "discord_url": "https://discord.gg/tQp4pSE",
+        "telegram_url": "",
+        "twitter_username": "cryptopunksnfts",
+        "instagram_username": "",
+        "contracts": [
+            {
+                "address": "0xb47e3cd837ddf8e4c57f05d70ab865de6e193bbb",
+                "chain": "ethereum"
+            }
+        ],
+        "editors": [
+            "0x24e3c70677c0fd9566bf25fea106dfd3b02b902f",
+            "0xc352b534e8b987e036a93539fd6897f53488e56a",
+            "0x5e1d178fd65534060c61283b1abfe070e87513fd"
+        ],
+        "fees": [
+            {
+                "fee": 2.5,
+                "recipient": "0x0000a26b00c1f0df003000390027140000faa719",
+                "required": true
+            }
+        ],
+        "payment_tokens": [
+            {
+                "symbol": "ETH",
+                "address": "0x0000000000000000000000000000000000000000",
+                "chain": "ethereum",
+                "image": "https://raw.seadn.io/files/ETH.svg",
+                "name": "Ether",
+                "decimals": 18,
+                "eth_price": "1.000000000000000",
+                "usd_price": "2905.170000000000073000"
+            },
+            {
+                "symbol": "DAI",
+                "address": "0x6b175474e89094c44da98b954eedeac495271d0f",
+                "chain": "ethereum",
+                "image": "https://raw.seadn.io/files/DAI.svg",
+                "name": "Dai Stablecoin",
+                "decimals": 18,
+                "eth_price": "0.000343520000000",
+                "usd_price": "0.998407000000000000"
+            },
+            {
+                "symbol": "WETH",
+                "address": "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
+                "chain": "ethereum",
+                "image": "https://raw.seadn.io/files/WETH.svg",
+                "name": "Wrapped Ether",
+                "decimals": 18,
+                "eth_price": "1.000000000000000",
+                "usd_price": "2906.059999999999945000"
+            },
+            {
+                "symbol": "USDC",
+                "address": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+                "chain": "ethereum",
+                "image": "https://raw.seadn.io/files/USDC.svg",
+                "name": "USD Coin",
+                "decimals": 6,
+                "eth_price": "0.000344120000000",
+                "usd_price": "0.999734000000000000"
+            }
+        ],
+        "total_supply": 9994,
+        "created_date": "2017-06-23"
     }
 ]

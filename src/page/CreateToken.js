@@ -6,6 +6,7 @@ import axios from 'axios';
 const CreateToken = () =>{
     const [name, setName] = useState('');
     const [symbol, setSymbol] = useState('');
+    const [price, setPrice] = useState('');
     const [supply, setSupply] = useState('');
     const [imgUrl, setImgUrl] = useState('');
     const [displayImage, setDisplayImage] = useState(false);
@@ -56,6 +57,15 @@ const CreateToken = () =>{
     const handleSubmit = async (event) => {
         event.preventDefault();
         handleConnection();
+        const coin = {
+                name,
+                symbol,
+                supply,
+                imgUrl,
+                walletAddress,
+                price
+        }
+        console.log("coin", coin);
         try {
             // Make an API call to create the coin
             const response = await axios.post('http://localhost:5500/add', {
@@ -63,7 +73,8 @@ const CreateToken = () =>{
                 symbol,
                 supply,
                 imgUrl,
-                walletAddress
+                walletAddress,
+                price
             });
 
             console.log('Coin created:', response.data);
@@ -74,6 +85,7 @@ const CreateToken = () =>{
             setSymbol('');
             setSupply('');
             setImgUrl('');
+            setPrice('');
             setDisplayImage(false);
         } catch (error) {
             console.error('Error creating coin:', error);
@@ -128,6 +140,20 @@ const CreateToken = () =>{
                             name="supply"
                             value={supply}
                             onChange={(e) => setSupply(e.target.value)}
+                            className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                            required
+                        />
+                    </div>
+                    <div className="mb-4 w-2/5">
+                        <label htmlFor="supply" className="block text-sm font-medium text-gray-700">
+                            Price
+                        </label>
+                        <input
+                            type="number"
+                            id="supply"
+                            name="supply"
+                            value={price}
+                            onChange={(e) => setPrice(e.target.value)}
                             className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
                             required
                         />
