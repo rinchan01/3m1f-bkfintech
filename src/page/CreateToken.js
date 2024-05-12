@@ -100,8 +100,8 @@ const CreateToken = () =>{
         <div className="flex flex-col">
             <NavBar/>
             <div className="mt-5 flex-col flex justify-center items-center">
-                <h1 className='text-xl font-extrabold tracking-tight leading-none md:text-5xl xl:text-6xl dark:text-white mb-5'>Create your token in CW20 standard</h1>
-                <form onSubmit={handleSubmit} className='flex-col flex justify-center items-center w-2/6 border border-slate-300 border-solid rounded-lg p-4'>
+                <h1 className='flex text-xl font-extrabold tracking-tight leading-none md:text-5xl xl:text-6xl dark:text-white mb-5'>Create your token in CW20 standard</h1>
+                <form onSubmit={handleSubmit} className='flex flex-col justify-center items-center w-2/6 border border-slate-300 border-solid rounded-lg p-4'>
                     <div className="mb-4 w-2/5">
                         <label htmlFor="name" className="block text-sm font-medium text-gray-700">
                             Name
@@ -112,7 +112,7 @@ const CreateToken = () =>{
                             name="name"
                             value={name}
                             onChange={(e) => setName(e.target.value)}
-                            className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                            className="mt-1 p-2 w-full border border-gray-300 rounded-md max-w-full focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
                             required
                         />
                     </div>

@@ -30,12 +30,12 @@ const AISupport = () => {
   return (
       <div
          id="AIConsultancy"
-         className=" w-full justify-center items-center flex flex-col gap-10 border-x-4 border-[#F7F7F9] z-30 text-white px-10 py-5"
+         className=" w-full justify-center items-center flex flex-col border-x-4 border-gray-300 z-30 px-10 py-5"
       >
-         <div className="rounded-lg border bg-[#142120] text-card-foreground shadow-sm w-full p-5 mx-auto md:max-w-lg justify-center items-center flex-col flex">
+         <div className="rounded-lg border border-gray-300 bg-white text-card-foreground shadow-sm w-full p-5 flex-col flex">
             <div className=" w-full p-6 pt-0 flex flex-row space-x-2 relative">
                <input
-                  className=" w-[70%] px-2 bg-transparent border-[1px] border-white rounded-lg placeholder:text-gray-300"
+                 className=" w-[70%] px-2 bg-transparent border-[1px] border-gray-300 rounded-lg placeholder:text-gray-700"
                   type="text"
                   placeholder="What do you need?"
                   value={inputPrompt}
@@ -43,7 +43,7 @@ const AISupport = () => {
                   required
                />
                <button
-                  className={` ${isGenerating ? 'bg-gray-400 cursor-not-allowed' : ''} cursor-pointer hover:bg-[#2C282F] text-white whitespace-nowrap inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2 w-[30%]`}
+                 className={` ${isGenerating ? 'bg-gray-400 cursor-not-allowed text-white' : ''} cursor-pointer bg-blue-200 hover:bg-blue-300 text-blue-600 font-bold py-2 px-4 rounded-lg flex items-center`}
                   type="button"
                   aria-haspopup="dialog"
                   aria-expanded="false"
@@ -56,8 +56,8 @@ const AISupport = () => {
                </button>
             </div>
             <div className=" w-full flex justify-start items-center flex-col gap-2">
-               <p>Answer the Questions:</p>
-               <article className=" w-full min-h-[20vh] break-words bg-transparent border-[1px] border-white rounded-lg placeholder:text-gray-300 p-2">
+               <p className="font-bold">Answer the question:</p>
+               <article className=" w-full min-h-[20vh] break-words bg-transparent border-[1px] border-gray-300 rounded-lg placeholder:text-gray-300 p-4">
                   <p id="AIResponse"></p>
                </article>
             </div>

@@ -69,7 +69,7 @@ export default function NavBar() {
                             alt=""
                         />
                     </a>
-                    <span class="ml-2 p-1 text-md text-opacity-90 font-bold">UETCoin</span>
+                    <span class="ml-2 p-1 text-md text-opacity-90 font-bold">3M1FCoin</span>
                 </div>
                 <div className="flex lg:hidden">
                     <button

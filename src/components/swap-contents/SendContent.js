@@ -1,56 +1,108 @@
 import * as React from 'react'
 import dai from '../../assets/dai-stablecoin.png';
 import eth from '../../assets/eth-icon.png';
-import wbtc from '../../assets/wbtc.png';
 import usdc from '../../assets/usdc-icon.png';
 import usdt from '../../assets/usdt-icon.png';
+import orai from '../../assets/orai.png';
+import { useState, useEffect } from 'react';
 
 export default function BuyContent() {
+    const [isOpen1, setIsOpen1] = useState(false);
+    const [isOpen2, setIsOpen2] = useState(false);
+
+    const [selectedPair1, setSelectedPair1] = useState('');
+
+    const [pair1Amount, setPair1Amount] = useState(0); // Default Amount
+
+
+    const [pair1Balance, setPair1Balance] = useState(0); // Default Amount
+
+    const pairs = [
+        {
+            coin: 'ETH',
+            img: eth
+        },
+        {
+            coin: 'DAI',
+            img: dai
+        },
+        {
+            coin: 'USDT',
+            img: usdt
+        },
+        {
+            coin: 'ORAI',
+            img: orai
+        }
+    ]; // Example array of pairs
+
+    const handleSelectPair1 = (pair) => {
+        setSelectedPair1(pair);
+        setIsOpen1(false);
+    };
+
+
+
     return (
         <>
-            <form>
-                <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">You send</label>
-                <div class="flex h-full">
+            <div className=" place-self-center lg:col-span-6 justify-center items-center">
+                <div className="w-full border border-slate-300 border-solid rounded-lg p-4">
+                    <div className="relative mt-4">
+                        <div id="select-pair" className='flex-col items-center justify-between'>
+                            <button
+                                onClick={() => {
+                                    setIsOpen1(!isOpen1)
+                                    if (isOpen2) setIsOpen2(!isOpen2)
+                                }
+                                }
+                                className="border border-solid border-gray-300 rounded-lg p-4 h-full w-full bg-white hover:bg-gray-100 text-black font-bold py-2 px-4 rounded-lg shadow-md flex items-center"
+                            >
+                                {selectedPair1 ? (
+                                    <>
+                                        <img src={selectedPair1.img} alt={selectedPair1.coin} className="mr-2 w-6 h-6" />
+                                        {selectedPair1.coin}
+                                    </>
+                                ) : "Select token"}
+                            </button>
+                            {isOpen1 && (
+                                <div className="absolute left-0 mt-2 w-40 bg-white rounded-lg shadow-lg z-50">
+                                    <ul>
+                                        {pairs.map((pair, index) => (
+                                            <li
+                                                key={index}
+                                                onClick={() => handleSelectPair1(pair)}
+                                                className="cursor-pointer py-2 px-4 hover:bg-gray-100 flex items-center"
+                                            >
+                                                <img src={pair.img} alt={pair.coin} className="mr-2 w-6 h-6" />
+                                                {pair.coin}
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            )}
 
-                    <button id="dropdown-button" data-dropdown-toggle="coin" class="flex-shrink-0 z-10 inline-flex items-center py-2.5 px-4 text-md font-xl text-center text-gray-900 bg-gray-100 border border-e-0 border-gray-300 dark:border-gray-700 dark:text-white rounded-s-lg hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-300 dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800" type="button">
-                        <img class="w-5 h-5 mr-4 rounded-full" src={eth} />
-                        ETH
-                        <svg class="w-2.5 h-2.5 ms-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4" />
-                        </svg></button>
-                    <div id="coin" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
-                        <ul class="py-2 font-xl text-xl text-gray-700 dark:text-gray-200" aria-labelledby="dropdown-button">
-                            <li>
-                                <img class="w-5 h-5 mr-4 rounded-full" src={wbtc} />
-                                WBTC
-                            </li>
-                            <li>
-                                <img class="w-5 h-5 mr-4 rounded-full" src={usdc} />
-                                USDC
-                            </li>
-                            <li>
-                                <img class="w-5 h-5 mr-4 rounded-full" src={usdt} />
-                                USDT
-                            </li>
-                            <li>
-                                <img class="w-5 h-5 mr-4 rounded-full" src={dai} />
-                                DAI
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="relative w-full">
-                        <input type="input" id="search-dropdown" class="block p-2.5 w-1/2 z-20 text-xl text-gray-900 bg-gray-50 rounded-e-lg rounded-s-gray-100 rounded-s-2 border border-gray-300 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500" placeholder="0" required />
+                        </div>
+                        <div id='swap-content' className={`mt-5 flex-col flex-1`}>
+                            <div className='bg-slate-100 w-full border border-solid border-gray-300 rounded-lg p-4 mb-3'>
+                                <div className="flex items-center">
+                                    {selectedPair1 ? <img src={selectedPair1.img} alt={selectedPair1.coin} className="mr-2 w-6 h-6" /> : ''}
+                                    <p className="text-xl font-bold">{selectedPair1.coin}</p>
+                                </div>
+                                <input
+                                    className='w-full bg-slate-100 h-10 text-xl font-bold'
+                                    type="number"
+                                    value={pair1Amount}
+                                    onChange={(e) => setPair1Amount(Number(e.target.value))}
+                                />
+                                <p> Balance: {pair1Balance}</p>
+
+                            </div>
+
+                            <button className='bg-blue-200 hover:bg-blue-300 text-blue-600 font-bold rounded-lg px-5 py-2.5 text-center justify-center' >Send</button>
+                        </div>
                     </div>
                 </div>
-                <label class="block mb-2 mt-5 text-sm font-medium text-gray-900 dark:text-white">To</label>
-                <div class="w-full">
-                    <input type="input" class="p-2.5 w-3/4 text-xl text-gray-900 bg-gray-50 rounded-lg rounded-s-gray-100 rounded-s-2 border border-gray-300 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500" placeholder="Wallet address" required />
-                </div>
-            </form>
-
-    
-            <button type="button" class=" mt-5 w-40  bg-blue-200 hover:bg-blue-300 text-blue-600 font-bold rounded-xl text-lg px-5 py-2.5 text-center me-2 mb-2">Send</button>
-
+            </div>
         </>
     )
 }
