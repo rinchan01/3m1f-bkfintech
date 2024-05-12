@@ -6,6 +6,8 @@ const navigation = [
     { name: 'Swap', href: '/#swap' },
     { name: 'NFTs', href: 'nft' },
     { name: 'Pool', href: 'pool' },
+    { name: 'Create Token', href: 'createToken' },
+    { name: 'List Token', href: 'listToken' },
 ]
 export default function NavBar() {
     const [connected, setConnected] = React.useState(false);
