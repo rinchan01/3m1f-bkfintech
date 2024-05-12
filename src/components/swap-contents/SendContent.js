@@ -15,7 +15,9 @@ export default function BuyContent() {
     const [pair1Amount, setPair1Amount] = useState(0); // Default Amount
 
 
-    const [pair1Balance, setPair1Balance] = useState(0); // Default Amount
+    const [pair1Balance, setPair1Balance] = useState(0);
+    
+    const [address, setAddress] = useState('') // Default Amount
 
     const pairs = [
         {
@@ -94,8 +96,16 @@ export default function BuyContent() {
                                     value={pair1Amount}
                                     onChange={(e) => setPair1Amount(Number(e.target.value))}
                                 />
-                                <p> Balance: {pair1Balance}</p>
+                                <label className='text-small opacity-65'>balance: {pair1Amount}</label>
 
+                            </div>
+                            <div className='bg-slate-100 w-full border border-solid border-gray-300 rounded-lg p-4 mb-3'>
+                                <label className='text-small opacity-65'>to address:</label>
+                                <input
+                                    className='w-full bg-slate-100 h-10 text-xl font-bold'
+                                    value={address}
+                                    onChange={(e) => setAddress(e.target.value)}
+                                />
                             </div>
 
                             <button className='bg-blue-200 hover:bg-blue-300 text-blue-600 font-bold rounded-lg px-5 py-2.5 text-center justify-center' >Send</button>
