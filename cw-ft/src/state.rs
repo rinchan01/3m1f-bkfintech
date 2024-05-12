@@ -1,7 +1,7 @@
 use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 
-use cosmwasm_std::Addr;
+use cosmwasm_std::{Addr, Uint128};
 use cw_storage_plus::Item;
 
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
@@ -14,4 +14,10 @@ pub struct TokenInfo {
     pub owner: Addr,
 }
 
+// #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
+// pub struct ContractState {
+//     pub total_supply: Uint128,
+// }
+
 pub const TOKEN_INFO: Item<TokenInfo> = Item::new("new_token");
+// pub const CONTRACT_STATE: Item<ContractState> = Item::new("contract_state");
