@@ -5,9 +5,12 @@ use cosmwasm_std::Addr;
 use cw_storage_plus::Item;
 
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
-pub struct State {
-    pub count: i32,
+pub struct TokenInfo {
+    pub name: String,
+    pub symbol: String,
+    pub img_url: String,
+    pub amount: u128,
     pub owner: Addr,
 }
 
-pub const STATE: Item<State> = Item::new("state");
+pub const TOKEN_INFO: Item<TokenInfo> = Item::new("new_token");
