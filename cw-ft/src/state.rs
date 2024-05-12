@@ -10,6 +10,7 @@ pub struct TokenInfo {
     pub symbol: String,
     pub img_url: String,
     pub amount: u128,
+    pub price: u128,
     pub owner: Addr,
 }
 

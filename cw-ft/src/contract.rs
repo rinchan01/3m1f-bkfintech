@@ -31,6 +31,7 @@ pub fn instantiate(
         symbol: _msg.symbol,
         amount: _msg.amount.u128(),
         img_url: _msg.img_url,
+        price: _msg.price.u128(),
         owner: _info.sender,
     };
     TOKEN_INFO.save(_deps.storage, &token_info)?;
@@ -64,6 +65,7 @@ fn mint(
         name: token_info.name,
         symbol: token_info.symbol,
         amount: token_info.amount,
+        price: token_info.price,
         img_url: token_info.img_url,
         owner: sender,
     };
@@ -134,6 +136,7 @@ mod tests {
             symbol: "MYFT".to_string(),
             // 1.23 tokens
             amount: Uint128::from(123_000_000u128),
+            price: Uint128::from(0121u128),
             img_url: "https://example.com/my-ft.png".to_string(),
         };
         let info = mock_info("creator", &coins(2, "token"));
@@ -145,6 +148,7 @@ mod tests {
             name: "My FT".to_string(),
             symbol: "MYFT".to_string(),
             amount: Uint128::from(1u128),
+            price: Uint128::from(0121u128),
             img_url: "https://example.com/my-ft.png".to_string(),
         };
 
@@ -165,6 +169,7 @@ mod tests {
         assert_eq!(res[0].name, "My FT");
         assert_eq!(res[0].symbol, "MYFT");
         assert_eq!(res[0].amount, 123_000_000u128);
+        assert_eq!(res[0].price, 121u128);
         assert_eq!(res[0].img_url, "https://example.com/my-ft.png");
         assert_eq!(res[0].owner, Addr::unchecked("creator"));
     }
@@ -177,6 +182,7 @@ mod tests {
             name: "My FT1".to_string(),
             symbol: "MYFT1".to_string(),
             amount: 1u128,
+            price: 12u128,
             img_url: "https://example.com/my-ft.png".to_string(),
             owner: Addr::unchecked("owner1"),
         };
@@ -184,6 +190,7 @@ mod tests {
             name: "My FT2".to_string(),
             symbol: "MYFT2".to_string(),
             amount: 1u128,
+            price: 17u128,
             img_url: "https://example.com/my-ft.png".to_string(),
             owner: Addr::unchecked("owner2"),
         };

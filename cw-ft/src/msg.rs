@@ -8,6 +8,7 @@ pub struct InstantiateMsg {
     pub name: String,
     pub symbol: String,
     pub amount: Uint128,
+    pub price: Uint128,
     pub img_url: String,
 }
 
@@ -43,5 +44,6 @@ pub struct MintMsg {
     pub name: String,
     pub symbol: String,
     pub amount: Uint128,
+    pub price: Uint128,
     pub img_url: String,
 }
