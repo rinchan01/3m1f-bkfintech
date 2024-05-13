@@ -5,19 +5,31 @@
     {
       "type": "object",
       "required": [
-        "custom_msg"
+        "ft"
       ],
       "properties": {
-        "custom_msg": {
+        "ft": {
           "type": "object",
           "required": [
-            "val"
+            "owner"
           ],
           "properties": {
-            "val": {
+            "owner": {
               "type": "string"
             }
           }
+        }
+      },
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "required": [
+        "all_tokens"
+      ],
+      "properties": {
+        "all_tokens": {
+          "type": "object"
         }
       },
       "additionalProperties": false

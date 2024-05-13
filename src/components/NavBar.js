@@ -13,6 +13,7 @@ export default function NavBar() {
     const [connected, setConnected] = React.useState(false);
     const [walletAddress, setWalletAddress] = React.useState('');
     const chainId = "cosmoshub-4"
+    
     async function getKeplr() {
         if (window.keplr) {
             await window.keplr.enable(chainId);

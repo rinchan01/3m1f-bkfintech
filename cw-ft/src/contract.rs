@@ -1,15 +1,14 @@
 use crate::msg::MintMsg;
-use crate::state::{TokenInfo, TOKEN_INFO};
+use crate::state::{TokenInfo, TOKEN_INFO, State, STATE};
 #[cfg(not(feature = "library"))]
 use cosmwasm_std::entry_point;
 use cosmwasm_std::to_binary;
 use cosmwasm_std::{
-    Addr, Binary, Deps, DepsMut, Env, MessageInfo, Order, Response, StdResult, Uint128,
+    Addr, Binary, Deps, DepsMut, Env, MessageInfo, Order, Response, StdResult
 };
+use crate::error::ContractError;
 use cw_storage_plus::Map;
 // use cw2::set_contract_version;
-
-use crate::error::ContractError;
 use crate::msg::{ExecuteMsg, InstantiateMsg, QueryMsg};
 
 /*
@@ -17,7 +16,7 @@ const CONTRACT_NAME: &str = "crates.io:cw-contracts";
 const CONTRACT_VERSION: &str = env!("CARGO_PKG_VERSION");
  */
 
-// This map stores the NFTs of each address.
+// map stores the NFTs of each address.
 pub const FTS: Map<&Addr, Vec<TokenInfo>> = Map::new("fts");
 // const MAX_TOTAL_SUPPLY: u128 = (1 << 63) - 1;
 
@@ -34,8 +33,12 @@ pub fn instantiate(
         amount: _msg.amount.u128(),
         img_url: _msg.img_url,
         price: _msg.price.u128(),
-        owner: _info.sender,
+        owner: _info.sender.clone(),
     };
+    let state = State {
+        owner: _info.sender.clone(),
+    };
+    STATE.save(_deps.storage, &state)?;
     TOKEN_INFO.save(_deps.storage, &token_info)?;
     Ok(Response::default())
 }
@@ -62,11 +65,14 @@ fn mint(
     info: MessageInfo,
     mint_msg: MintMsg,
 ) -> Result<Response, ContractError> {
-    // let mut state = CONTRACT_STATE.load(deps.storage)?;
+    let state = STATE.load(deps.storage)?;
     let token_info = TOKEN_INFO.load(deps.storage)?;
     // Define the maximum total supply
     // let max_total_supply = Uint128::from(MAX_TOTAL_SUPPLY);
 
+    if info.sender != state.owner {
+        return Err(ContractError::Unauthorized {});
+    }
     if mint_msg.amount.u128() == 0 {
         return Err(ContractError::ZeroAmount {});
     }
@@ -121,7 +127,6 @@ pub fn query(_deps: Deps, _env: Env, _msg: QueryMsg) -> StdResult<Binary> {
 }
 
 // total number of tokens that have been minted by this contract
-#[cfg_attr(not(feature = "library"), entry_point)]
 pub fn query_all_tokens(deps: Deps) -> StdResult<Binary> {
     let tokens: StdResult<Vec<Vec<TokenInfo>>> = FTS
         .range(deps.storage, None, None, Order::Ascending)
@@ -309,4 +314,43 @@ mod tests {
     //     let total_supply: u128 = from_binary(&res).unwrap();
     //     assert_eq!(total_supply, 200);
     // }
+
+        #[test]
+    fn test_unauthorized_mint() {
+        let mut deps = mock_dependencies();
+
+        let owner = Addr::unchecked("owner");
+        let non_owner = Addr::unchecked("non_owner");
+
+        let instantiate_msg = InstantiateMsg {
+            name: "My FT".to_string(),
+            symbol: "MYFT".to_string(),
+            amount: Uint128::from(123_000_000u128),
+            price: Uint128::from(0121u128),
+            img_url: "https://example.com/my-ft.png".to_string(),
+        };
+
+        // Instantiate the contract
+        let env = mock_env();
+        let info = mock_info(owner.as_str(), &coins(2, "token"));
+        instantiate(deps.as_mut(), env.clone(), info.clone(), instantiate_msg).unwrap();
+
+        // Attempt to mint with non-owner address
+        let mint_msg = MintMsg {
+            name: "My FT".to_string(),
+            symbol: "MYFT".to_string(),
+            amount: Uint128::from(1u128),
+            price: Uint128::from(0121u128),
+            img_url: "https://example.com/my-ft.png".to_string(),
+        };
+        let info = mock_info(non_owner.as_str(), &coins(2, "token"));
+        let result = mint(deps.as_mut(), env, info, mint_msg);
+
+        // Assert that the mint function returns an Unauthorized error
+        match result {
+            Ok(_) => panic!("Expected error, got success"),
+            Err(ContractError::Unauthorized {}) => (), // This is what we expect
+            Err(_) => panic!("Unexpected error"),
+        }
+    }
 }

@@ -9,9 +9,12 @@ pub enum ContractError {
     #[error("Custom Error val: {val:?}")]
     CustomError { val: String },
 
+    #[error("Unauthorized")]
+    Unauthorized,
+
     #[error("ZeroAmount")]
     ZeroAmount,
 
-    #[error("SupplyOverflow")]
-    SupplyOverflow,
+    // #[error("SupplyOverflow")]
+    // SupplyOverflow,
 }
