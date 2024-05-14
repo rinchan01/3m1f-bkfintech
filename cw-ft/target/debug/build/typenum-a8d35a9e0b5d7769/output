@@ -1,2 +1,0 @@
-cargo:rustc-env=TYPENUM_BUILD_CONSTS=E:\Downloads\uniswap-clone\cw-ft\target\debug\build\typenum-a8d35a9e0b5d7769\out\consts.rs
-cargo:rustc-env=TYPENUM_BUILD_OP=E:\Downloads\uniswap-clone\cw-ft\target\debug\build\typenum-a8d35a9e0b5d7769\out\op.rs
