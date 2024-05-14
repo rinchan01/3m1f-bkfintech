@@ -107,3 +107,36 @@ pub fn query(deps: Deps, _env: Env, msg: QueryMsg) -> StdResult<Binary> {
 pub fn migrate(_deps: DepsMut, _env: Env, _msg: MigrateMsg) -> StdResult<Response> {
     Ok(Response::default())
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use cosmwasm_std::testing::{mock_dependencies, mock_env, mock_info};
+    use cosmwasm_std::{coins, from_binary, CosmosMsg, Uint128, WasmMsg};
+    use cw20::Cw20Coin;
+    use cw20_base::msg::InstantiateMsg;
+
+    #[test]
+    fn proper_initialization() {
+        let mut deps = mock_dependencies();
+
+        let msg = InstantiateMsg {
+            name: "Cosmos Coin".to_string(),
+            symbol: "COSM".to_string(),
+            decimals: 2,
+            initial_balances: vec![
+                Cw20Coin {
+                    address: "orai1ju8t33cxjfazk2f2vjuzv2ne5y4j0kqhtuuqtu".to_string(),
+                    amount: Uint128::from(1000000u128),
+                }
+            ],
+            mint: None,
+            marketing: None,
+        };
+        let info = mock_info("creator", &coins(2, "token"));
+
+        // we can just call .unwrap() to assert this was a success
+        let res = instantiate(deps.as_mut(), mock_env(), info, msg).unwrap();
+        assert_eq!(0, res.messages.len());
+    }
+}
