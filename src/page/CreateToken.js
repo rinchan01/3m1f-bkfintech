@@ -47,8 +47,17 @@ const CreateToken = () =>{
         setOfflineSigner(await window.getOfflineSigner());
         console.log("offSigner", offlineSinger);
         // const client = await SigningCosmWasmClient.connectWithSigner('https://rpc.orai.io', offlineSinger);
-        const client = await SigningCosmWasmClient.connectWithSigner('https://rpc.orai.io', offlineSinger);
-        console.log(client);
+        const client = await SigningCosmWasmClient.connectWithSigner('ws://143.198.11.18:26657', offlineSinger);
+        console.log("client",client);
+        const instantiateMsg = {
+            "amount": "1000",
+            "img_url": "test",
+            "name": "test name",
+            "price": 0.05,
+            "symbol": "TNT"
+        }
+        const result = await client.execute("orai1ju8t33cxjfazk2f2vjuzv2ne5y4j0kqhtuuqtu", "orai16w6rwapm0zcsleyp23258peftq2n6c7aaqtt2w8v200683nzxalqegtn53", instantiateMsg,"auto");
+        console.log("result",result);
     }
     async function handleConnection() {
         await createSigningCosmWasm();
