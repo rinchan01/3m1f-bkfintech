@@ -7,11 +7,11 @@ use crate::state::{
 use cosmwasm_std::entry_point;
 use cosmwasm_std::Addr;
 use cosmwasm_std::{
-    to_binary, Binary, CosmosMsg, Decimal, Deps, DepsMut, Env, MessageInfo, Response, StdError,
+    to_binary, CosmosMsg, Decimal, DepsMut, Env, MessageInfo, Response, StdError,
     StdResult, SubMsg, Uint128, WasmMsg,
 };
 use cw20::Cw20ExecuteMsg;
-use cw20_base::ContractError;
+use crate::error::ContractError;
 use std::collections::HashMap;
 use std::result::Result;
 const INSTANTIATE_REPLY_ID: u64 = 1;
@@ -59,6 +59,7 @@ pub fn instantiate(
     Ok(Response::new())
 }
 
+#[cfg_attr(not(feature = "library"), entry_point)]
 pub fn execute(
     deps: DepsMut,
     env: Env,
@@ -83,7 +84,6 @@ pub fn execute(
 }
 
 
-#[cfg_attr(not(feature = "library"), entry_point)]
 pub fn execute_add_liquidity(
     deps: DepsMut,
     env: Env,

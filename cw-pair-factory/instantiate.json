@@ -1,0 +1,15 @@
+{
+  "initial_liquidity_positions": [
+    {
+      "liquidity": "100000000000000000000",
+      "lower_price": "0.5",
+      "owner": "cosmos1vzx8j42mxl7laev8uc4cls445wytaatpryzq73",
+      "upper_price": "1.5"
+    }
+  ],
+  "pair_code_id": 1,
+  "token1": "token1",
+  "token1_address": "cosmos1vzx8j42mxl7laev8uc4cls445wytaatpryzq73",
+  "token2": "token2",
+  "token2_address": "cosmos1vzx8j42mxl7laev8uc4cls445wytaatpryzq73"
+}

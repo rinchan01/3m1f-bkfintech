@@ -1,3 +1,4 @@
+#![feature(error_in_core)]
 pub mod contract;
 mod error;
 pub mod msg;

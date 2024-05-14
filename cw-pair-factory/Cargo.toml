@@ -52,6 +52,7 @@ cw20-base = {  version = "0.13.2", features = ["library"] }
 cw20-factory-token = {  version = "0.6.0", features = ["library"] }
 rand = "0.8.4"
 bech32 = "0.7.2"
+getrandom = { version = "0.2.6", features = ["js"] }
 
 [dev-dependencies]
 cosmwasm-schema = "1.1.1"
