@@ -12,19 +12,18 @@ const navigation = [
 export default function NavBar() {
     const [connected, setConnected] = React.useState(false);
     const [walletAddress, setWalletAddress] = React.useState('');
-    const chainId = "cosmoshub-4"
-    
-    async function getKeplr() {
-        if (window.keplr) {
-            await window.keplr.enable(chainId);
+    const chainId = "Oraichain"
+    async function getOwallet() {
+        if (window.owallet) {
+            await window.owallet.enable(chainId);
             setConnected(true);
-            return window.keplr;
+            return window.owallet;
         }
 
         if (document.readyState === "complete") {
-            console.log("1", window.keplr)
+            console.log("1", window.owallet)
             console.log("connected")
-            return window.keplr;
+            return window.owallet;
         }
 
         return new Promise((resolve) => {
@@ -33,7 +32,7 @@ export default function NavBar() {
                     event.target &&
                     event.target.readyState === "complete"
                 ) {
-                    resolve(window.keplr);
+                    resolve(window.owallet);
                     document.removeEventListener("readystatechange", documentStateChange);
                 }
             };
@@ -45,16 +44,16 @@ export default function NavBar() {
     async function handleConnection() {
         console.log("connecting")
         try {
-            const keplr = await getKeplr();
-            if (!keplr) {
-                console.error("Keplr wallet not found");
+            const owallet = await getOwallet();
+            if (!owallet) {
+                console.error("Owallet wallet not found");
                 return;
             }
-            const key = await keplr.getKey(chainId);
+            const key = await owallet.getKey(chainId);
             console.log("key", key.bech32Address);
             setWalletAddress(key.bech32Address);
         } catch (error) {
-            console.error("Failed to connect to Keplr wallet:", error);
+            console.error("Failed to connect to Owallet wallet:", error);
         }
     }
 

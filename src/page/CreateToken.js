@@ -1,7 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import NavBar from "../components/NavBar";
 import axios from 'axios';
+import {SigningCosmWasmClient} from '@cosmjs/cosmwasm-stargate';
+
+
 
 const CreateToken = () =>{
     const [name, setName] = useState('');
@@ -10,19 +13,19 @@ const CreateToken = () =>{
     const [supply, setSupply] = useState('');
     const [imgUrl, setImgUrl] = useState('');
     const [displayImage, setDisplayImage] = useState(false);
-
+    const [offlineSinger,setOfflineSigner] = useState('');
     const [walletAddress, setWalletAddress] = React.useState('');
-    const chainId = "cosmoshub-4"
-    async function getKeplr() {
-        if (window.keplr) {
-            await window.keplr.enable(chainId);
-            return window.keplr;
+    const chainId = "Oraichain"
+    async function getOwallet() {
+        if (window.owallet) {
+            await window.owallet.enable(chainId);
+            return window.owallet;
         }
 
         if (document.readyState === "complete") {
-            console.log("1", window.keplr)
+            console.log("1", window.owallet)
             console.log("connected")
-            return window.keplr;
+            return window.owallet;
         }
 
         return new Promise((resolve) => {
@@ -31,7 +34,7 @@ const CreateToken = () =>{
                     event.target &&
                     event.target.readyState === "complete"
                 ) {
-                    resolve(window.keplr);
+                    resolve(window.owallet);
                     document.removeEventListener("readystatechange", documentStateChange);
                 }
             };
@@ -39,19 +42,39 @@ const CreateToken = () =>{
             document.addEventListener("readystatechange", documentStateChange);
         });
     }
+    async function createSigningCosmWasm(){
+        // setOfflineSigner(await window.getOfflineSigner(chainId));
+        setOfflineSigner(await window.getOfflineSigner());
+        console.log("offSigner", offlineSinger);
+        // const client = await SigningCosmWasmClient.connectWithSigner('https://rpc.orai.io', offlineSinger);
+        const client = await SigningCosmWasmClient.connectWithSigner('ws://143.198.11.18:26657', offlineSinger);
+        console.log("client",client);
+        const instantiateMsg = {
+            "amount": "1000",
+            "img_url": "test",
+            "name": "test name",
+            "price": 0.05,
+            "symbol": "TNT"
+        }
+        const result = await client.execute("orai1ju8t33cxjfazk2f2vjuzv2ne5y4j0kqhtuuqtu", "orai16w6rwapm0zcsleyp23258peftq2n6c7aaqtt2w8v200683nzxalqegtn53", instantiateMsg,"auto");
+        console.log("result",result);
+    }
     async function handleConnection() {
+        await createSigningCosmWasm();
         console.log("connecting")
         try {
-            const keplr = await getKeplr();
-            if (!keplr) {
-                console.error("Keplr wallet not found");
+            const owallet = await getOwallet();
+            if (!owallet) {
+                console.error("Owallet wallet not found");
                 return;
             }
-            const key = await keplr.getKey(chainId);
+            const key = await owallet.getKey(chainId);
+
+
             console.log("key", key.bech32Address);
             setWalletAddress(key.bech32Address);
         } catch (error) {
-            console.error("Failed to connect to Keplr wallet:", error);
+            console.error("Failed to connect to Owallet wallet:", error);
         }
     }
     const handleSubmit = async (event) => {
@@ -96,6 +119,8 @@ const CreateToken = () =>{
         setImgUrl(e.target.value);
         setDisplayImage(true); // Set to true to display the image
     };
+
+    
     return (
         <div className="flex flex-col">
             <NavBar/>
