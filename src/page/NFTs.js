@@ -5,6 +5,7 @@ import { FaCheckCircle } from "react-icons/fa";
 import SliderComponent from '../components/SliderComponent';
 import Footer from '../components/Footer';
 import { collectionsData } from '../assets/topNFT';
+
 const NFTs = () => {
 
   return (

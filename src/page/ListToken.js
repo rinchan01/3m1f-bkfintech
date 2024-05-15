@@ -6,66 +6,68 @@ import axios from 'axios';
 const ListToken = () =>{
     const [tokens, setTokens] = useState([]);
     const [walletAddress, setWalletAddress] = React.useState('');
-    const chainId = "cosmoshub-4"
-    async function getKeplr() {
-        if (window.keplr) {
-            await window.keplr.enable(chainId);
-            return window.keplr;
-        }
 
-        if (document.readyState === "complete") {
-            console.log("1", window.keplr)
-            console.log("connected")
-            return window.keplr;
-        }
+    // const chainId = "cosmoshub-4"
+    // async function getKeplr() {
+    //     if (window.keplr) {
+    //         await window.keplr.enable(chainId);
+    //         return window.keplr;
+    //     }
 
-        return new Promise((resolve) => {
-            const documentStateChange = (event) => {
-                if (
-                    event.target &&
-                    event.target.readyState === "complete"
-                ) {
-                    resolve(window.keplr);
-                    document.removeEventListener("readystatechange", documentStateChange);
-                }
-            };
+    //     if (document.readyState === "complete") {
+    //         console.log("1", window.keplr)
+    //         console.log("connected")
+    //         return window.keplr;
+    //     }
 
-            document.addEventListener("readystatechange", documentStateChange);
-        });
-    }
-    async function handleConnection() {
-        console.log("connecting")
-        try {
-            const keplr = await getKeplr();
-            if (!keplr) {
-                console.error("Keplr wallet not found");
-                return;
-            }
-            const key = await keplr.getKey(chainId);
-            console.log("key", key.bech32Address);
-            setWalletAddress(key.bech32Address);
-        } catch (error) {
-            console.error("Failed to connect to Keplr wallet:", error);
-        }
-    }
+    //     return new Promise((resolve) => {
+    //         const documentStateChange = (event) => {
+    //             if (
+    //                 event.target &&
+    //                 event.target.readyState === "complete"
+    //             ) {
+    //                 resolve(window.keplr);
+    //                 document.removeEventListener("readystatechange", documentStateChange);
+    //             }
+    //         };
 
-    async function fetchData() {
+    //         document.addEventListener("readystatechange", documentStateChange);
+    //     });
+    // }
+    // async function handleConnection() {
+    //     console.log("connecting")
+    //     try {
+    //         const keplr = await getKeplr();
+    //         if (!keplr) {
+    //             console.error("Keplr wallet not found");
+    //             return;
+    //         }
+    //         const key = await keplr.getKey(chainId);
+    //         console.log("key", key.bech32Address);
+    //         setWalletAddress(key.bech32Address);
+    //     } catch (error) {
+    //         console.error("Failed to connect to Keplr wallet:", error);
+    //     }
+    // }
+
+    // async function fetchData() {
         
-        try {
-            // Make an API call to create the coin
-            const response = await axios.get(`http://localhost:5500/get/${walletAddress}`);
+    //     try {
+    //         // Make an API call to create the coin
+    //         const response = await axios.get(`http://localhost:5500/get/${walletAddress}`);
 
-            setTokens(response.data.listCoins);
+    //         setTokens(response.data.listCoins);
 
-        } catch (error) {
-            console.error('Error creating coin:', error);
-        }
-    }
-    useEffect(() => {
-        handleConnection()
-        fetchData()
+    //     } catch (error) {
+    //         console.error('Error creating coin:', error);
+    //     }
+    // }
+    // useEffect(() => {
+    //     handleConnection()
+    //     fetchData()
         
-    },[walletAddress])
+    // },[walletAddress])
+    
     return (
         <>
             <NavBar/>

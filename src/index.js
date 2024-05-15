@@ -57,25 +57,21 @@
 //     </WagmiProvider>
 //   </React.StrictMode>
 // );
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import { BrowserRouter as Router } from 'react-router-dom';
-import { Provider } from 'react-redux';
-import { createStore } from 'redux';
-import rootReducer from './redux/rootReducer';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import App from "./App";
+import { BrowserRouter as Router } from "react-router-dom";
+import myStore from "./redux/store/myStore";
+import { Provider } from "react-redux";
 
-
-const store = createStore(rootReducer);
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <Provider store={store}>
+    <Provider store={myStore}>
       <Router>
         <App />
       </Router>
     </Provider>
-
   </React.StrictMode>
 );
