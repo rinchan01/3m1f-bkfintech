@@ -1,17 +1,17 @@
-use crate::msg::{ExecuteMsg, InstantiateMsg, PairInstantiateMsg, QueryMsg};
+use crate::error::ContractError;
+use crate::msg::{BalancesResponse, ExecuteMsg, InstantiateMsg, PairInstantiateMsg, QueryMsg};
 use crate::state::{
     AssetInfo, Balances, Config, LiquidityPosition, PairInfo, BALANCES, CONFIG,
     LIQUIDITY_POSITIONS, PAIR_INFO,
 };
 #[cfg(not(feature = "library"))]
 use cosmwasm_std::entry_point;
-use cosmwasm_std::Addr;
 use cosmwasm_std::{
-    to_binary, CosmosMsg, Decimal, DepsMut, Env, MessageInfo, Response, StdError,
-    StdResult, SubMsg, Uint128, WasmMsg,
+    to_binary, CosmosMsg, Decimal, DepsMut, Env, MessageInfo, Response, StdError, StdResult,
+    SubMsg, Uint128, WasmMsg,
 };
+use cosmwasm_std::{Addr, Binary, Deps};
 use cw20::Cw20ExecuteMsg;
-use crate::error::ContractError;
 use std::collections::HashMap;
 use std::result::Result;
 const INSTANTIATE_REPLY_ID: u64 = 1;
@@ -24,9 +24,8 @@ pub fn instantiate(
     msg: InstantiateMsg,
 ) -> StdResult<Response> {
     let canonical_addr = deps.api.addr_canonicalize(info.sender.as_str())?;
-    let human_addr = deps.api.addr_humanize(&canonical_addr)?;
     let config = Config {
-        owner: human_addr,
+        owner: msg.owner,
         pair_code_id: msg.pair_code_id,
     };
 
@@ -83,7 +82,6 @@ pub fn execute(
     }
 }
 
-
 pub fn execute_add_liquidity(
     deps: DepsMut,
     env: Env,
@@ -96,7 +94,12 @@ pub fn execute_add_liquidity(
     let pair_info: PairInfo = PAIR_INFO.load(deps.storage)?;
     // load the current balances from state
     let mut balances: Balances = BALANCES.load(deps.storage)?;
-
+    println!("Pair Info: {:?}", pair_info);
+    println!("Balances: {:?}", balances);
+    println!(
+        "Addresses: {:?} and owner: {:?}",
+        env.contract.address, info.sender
+    );
     // transfer the specified amount of each token from the sender to the contract
     let transfer_msg1 = CosmosMsg::Wasm(WasmMsg::Execute {
         contract_addr: pair_info.token1.clone(),
@@ -147,6 +150,7 @@ pub fn execute_add_liquidity(
         &deps.api.addr_canonicalize(info.sender.as_str())?.as_slice(),
         &positions,
     )?;
+    println!("Positions: {:?}", LIQUIDITY_POSITIONS);
     // let sender_addr = deps.api.addr_canonicalize(info.sender.as_str())?;
 
     Ok(Response::new()
@@ -226,18 +230,18 @@ pub fn execute_swap(
 fn calculate_price(offer_asset: &AssetInfo, balances: &Balances) -> Decimal {
     println!("Calculating price for asset: {:?}", offer_asset);
     // Get the balance of the offered asset
-let offer_balance = if offer_asset.token == balances.token1_address {
-    // println!("Offered asset matches token1_address");
-    balances.token1
-} else if offer_asset.token == balances.token2_address {
-    // println!("Offered asset matches token2_address");
-    balances.token2
-} else {
-    // println!("Offered asset: {:?}", offer_asset.token);
-    // println!("Token1 address: {:?}", balances.token1_address);
-    // println!("Token2 address: {:?}", balances.token2_address);
-    panic!("Offered asset is not in the pool");
-};
+    let offer_balance = if offer_asset.token == balances.token1_address {
+        // println!("Offered asset matches token1_address");
+        balances.token1
+    } else if offer_asset.token == balances.token2_address {
+        // println!("Offered asset matches token2_address");
+        balances.token2
+    } else {
+        // println!("Offered asset: {:?}", offer_asset.token);
+        // println!("Token1 address: {:?}", balances.token1_address);
+        // println!("Token2 address: {:?}", balances.token2_address);
+        panic!("Offered asset is not in the pool");
+    };
 
     // Calculate the price as the ratio of the offered amount to the balance of the offered asset
     Decimal::from_ratio(offer_asset.amount, offer_balance)
@@ -295,6 +299,25 @@ pub fn execute_create_pair(
         ]))
 }
 
+#[cfg_attr(not(feature = "library"), entry_point)]
+pub fn query(deps: Deps, _env: Env, msg: QueryMsg) -> StdResult<Binary> {
+    match msg {
+        QueryMsg::LiquidityPosition { owner } => to_binary(&checkLiquidity(deps)?),
+        QueryMsg::GetBalances {} => to_binary(&query_balances(deps)?),
+    }
+}
+
+fn query_balances(deps: Deps) -> StdResult<BalancesResponse> {
+    let balances = BALANCES.load(deps.storage)?;
+    Ok(BalancesResponse {
+        token1_balance: balances.token1,
+        token2_balance: balances.token2,
+    })
+}
+fn checkLiquidity(deps: Deps) -> StdResult<BalancesResponse> {
+    !unimplemented!()
+}
+
 #[cfg(test)]
 mod tests {
     use std::str::FromStr;
@@ -312,11 +335,12 @@ mod tests {
             pair_code_id: 1u64,
             token1: "token1".to_string(),
             token2: "token2".to_string(),
-            token1_address: "token1_address".to_string(),
-            token2_address: "token2_address".to_string(),
+            token1_address: Addr::unchecked("token1_address".to_string()),
+            token2_address: Addr::unchecked("token2_address".to_string()),
             initial_liquidity_positions: vec![],
+            owner: Addr::unchecked("orai1ju8t33cxjfazk2f2vjuzv2ne5y4j0kqhtuuqtu".to_string()),
         };
-        let info = mock_info("creator", &coins(2, "token"));
+        let info = mock_info("tlinh", &coins(2, "token"));
 
         // we can just .unwrap() to assert this was a success
         let _res = instantiate(deps.as_mut(), mock_env(), info.clone(), msg).unwrap();
@@ -418,8 +442,8 @@ mod tests {
             pair_code_id: 1,
             token1: "token1".to_string(),
             token2: "token2".to_string(),
-            token1_address: "token1_address".to_string(),
-            token2_address: "token2_address".to_string(),
+            token1_address: Addr::unchecked("token1_address".to_string()),
+            token2_address: Addr::unchecked("token2_address".to_string()),
             initial_liquidity_positions: vec![
                 LiquidityPosition {
                     liquidity: Uint128::from(100u128),
@@ -429,7 +453,8 @@ mod tests {
                 },
                 // add more LiquidityPosition if needed
             ],
-        };
+            owner: Addr::unchecked("orai1ju8t33cxjfazk2f2vjuzv2ne5y4j0kqhtuuqtu".to_string()),
+        }; // Add closing parenthesis here
         let _res = instantiate(deps.as_mut(), env.clone(), info.clone(), instantiate_msg).unwrap();
 
         // test execute_create_pair
@@ -484,20 +509,21 @@ mod tests {
         assert_eq!(saved_balances.token2_address, native_token_address);
     }
     #[test]
-    fn add_liquidity() {
+    fn test_add_liquidity() {
         let mut deps = mock_dependencies();
 
         let msg = InstantiateMsg {
             pair_code_id: 1u64,
             token1: "token1".to_string(),
             token2: "token2".to_string(),
-            token1_address: "token1_address".to_string(),
-            token2_address: "token2_address".to_string(),
+            token1_address: Addr::unchecked("token1_address".to_string()),
+            token2_address: Addr::unchecked("token2_address".to_string()),
             initial_liquidity_positions: vec![],
+            owner: Addr::unchecked("orai1ju8t33cxjfazk2f2vjuzv2ne5y4j0kqhtuuqtu".to_string()),
         };
         let info = mock_info("creator", &coins(2, "token"));
 
-        // we can just .unwrap() to assert this was a success
+        // .unwrap() to assert this was a success
         let _res = instantiate(deps.as_mut(), mock_env(), info.clone(), msg).unwrap();
 
         // Prepare add liquidity message
@@ -506,16 +532,12 @@ mod tests {
             upper: Decimal::percent(110),
             amount: Uint128::from(200u64),
         };
-
-        // Execute add liquidity
         let res = execute(deps.as_mut(), mock_env(), info, add_liquidity_msg).unwrap();
 
-        // Check if the liquidity was added correctly
         let balances: Balances = BALANCES.load(deps.as_ref().storage).unwrap();
         assert_eq!(balances.token1, Uint128::from(200u64));
         assert_eq!(balances.token2, Uint128::from(200u64));
 
-        // Check if the liquidity position was created correctly
         let canonical_addr = deps.api.addr_canonicalize("creator").unwrap();
         let positions: Vec<LiquidityPosition> = LIQUIDITY_POSITIONS
             .load(deps.as_ref().storage, canonical_addr.as_slice())

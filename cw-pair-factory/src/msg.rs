@@ -10,9 +10,10 @@ pub struct InstantiateMsg {
     pub pair_code_id: u64,
     pub token1: String,
     pub token2: String,
-    pub token1_address: String,
-    pub token2_address: String,
+    pub token1_address: Addr,
+    pub token2_address: Addr,
     pub initial_liquidity_positions: Vec<LiquidityPosition>,
+    pub owner: Addr,
 }
 
 
@@ -41,6 +42,9 @@ pub enum QueryMsg {
     LiquidityPosition {
         owner: Addr,
     },
+    GetBalances {
+
+    }
 }
 
 
@@ -55,4 +59,10 @@ pub enum MigrateMsg {
 pub struct PairInstantiateMsg {
     pub asset_infos: [AssetInfo; 2],
     pub admin: Option<String>,
+}
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
+#[serde(rename_all = "snake_case")]
+pub struct BalancesResponse {
+    pub token1_balance: Uint128,
+    pub token2_balance: Uint128,
 }

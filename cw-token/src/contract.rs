@@ -1,8 +1,8 @@
+use crate::msg::{ExecuteMsg, QueryMsg};
 #[cfg(not(feature = "library"))]
 use cosmwasm_std::entry_point;
 use cosmwasm_std::{to_binary, Binary, Deps, DepsMut, Env, MessageInfo, Response, StdResult};
 use cw20_base::enumerable::{query_all_accounts, query_all_allowances};
-use crate::msg::{QueryMsg, ExecuteMsg};
 use cw20_base::ContractError;
 
 use crate::msg::MigrateMsg;
@@ -12,8 +12,7 @@ use cw20_base::allowances::{
     execute_transfer_from, query_allowance,
 };
 use cw20_base::contract::{
-    execute_burn, execute_mint, execute_send, execute_transfer, execute_update_marketing,
-    execute_upload_logo, query_balance, query_download_logo, query_marketing_info, query_minter,
+    execute_burn, execute_mint, execute_send, execute_transfer, query_balance, query_minter,
     query_token_info,
 };
 
@@ -124,12 +123,10 @@ mod tests {
             name: "Cosmos Coin".to_string(),
             symbol: "COSM".to_string(),
             decimals: 2,
-            initial_balances: vec![
-                Cw20Coin {
-                    address: "orai1ju8t33cxjfazk2f2vjuzv2ne5y4j0kqhtuuqtu".to_string(),
-                    amount: Uint128::from(1000000u128),
-                }
-            ],
+            initial_balances: vec![Cw20Coin {
+                address: "orai1ju8t33cxjfazk2f2vjuzv2ne5y4j0kqhtuuqtu".to_string(),
+                amount: Uint128::from(1000000u128),
+            }],
             mint: None,
             marketing: None,
         };

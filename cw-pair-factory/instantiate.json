@@ -1,15 +1,9 @@
 {
-  "initial_liquidity_positions": [
-    {
-      "liquidity": "100000000000000000000",
-      "lower_price": "0.5",
-      "owner": "orai1ju8t33cxjfazk2f2vjuzv2ne5y4j0kqhtuuqtu",
-      "upper_price": "1.5"
-    }
-  ],
+  "owner": "orai1ju8t33cxjfazk2f2vjuzv2ne5y4j0kqhtuuqtu",
   "pair_code_id": 1,
-  "token1": "orai",
-  "token1_address": "cosmos1vzx8j42mxl7laev8uc4cls445wytaatpryzq73",
-  "token2": "aura",
-  "token2_address": "cosmos1vzx8j42mxl7laev8uc4cls445wytaatpryzq73"
+  "token1": "tlinh",
+  "token1_address": "orai1uz42s7e2na2n0q09mx36enz56s9nuw666l5puwzklnhu02y4s7esx6jkj5",
+  "token2": "uet",
+  "token2_address": "orai19kenu9t0m0372x0dp6jx4vk8q7dp88m6u6dzda60t07vahgdq5zqt4hfld3",
+  "initial_liquidity_positions": []
 }

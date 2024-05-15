@@ -4,6 +4,7 @@
   "type": "object",
   "required": [
     "initial_liquidity_positions",
+    "owner",
     "pair_code_id",
     "token1",
     "token1_address",
@@ -17,6 +18,9 @@
         "$ref": "#/definitions/LiquidityPosition"
       }
     },
+    "owner": {
+      "$ref": "#/definitions/Addr"
+    },
     "pair_code_id": {
       "type": "integer",
       "format": "uint64",
@@ -26,13 +30,13 @@
       "type": "string"
     },
     "token1_address": {
-      "type": "string"
+      "$ref": "#/definitions/Addr"
     },
     "token2": {
       "type": "string"
     },
     "token2_address": {
-      "type": "string"
+      "$ref": "#/definitions/Addr"
     }
   },
   "definitions": {
